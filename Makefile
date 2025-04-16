@@ -1,31 +1,23 @@
-# Variables
-COMPILADORC = gcc
-FLAGSC = -Wall -ansi -march=core2 -O2 -g
+CC = gcc
+CFLAGS = -Wall -O2 -I./src
 OBJDIR = obj
-SRCDIR = src
-EXTLIBDIR = lib
-OBJS = $(OBJDIR)/utils.o $(OBJDIR)/dfs.o
-LINKING = -lsvd -lm
-EXECNAME = cluster
+LIBDIR = lib
 
-ifeq ($(shell getconf LONG_BIT),32)
- LINKDIR = -L $(EXTLIBDIR)/i386
-else
- LINKDIR = -L $(EXTLIBDIR)/x86-64
-endif
+OBJS = $(OBJDIR)/dfs.o $(OBJDIR)/utils.o
+SRCS = src/checkers.c
 
-# Compilation rules
-$(OBJDIR)/dfs.o : $(SRCDIR)/dfs.c $(SRCDIR)/header.h
-	mkdir -p $(OBJDIR)
-	$(COMPILADORC) $(FLAGSC) -c $(SRCDIR)/dfs.c -o $(OBJDIR)/dfs.o
+TARGET = cluster
 
-$(OBJDIR)/utils.o : $(SRCDIR)/utils.c $(SRCDIR)/header.h
-	mkdir -p $(OBJDIR)
-	$(COMPILADORC) $(FLAGSC) -c $(SRCDIR)/utils.c -o $(OBJDIR)/utils.o
+all: $(TARGET)
 
-# Linking
-all : $(OBJS)
-	$(COMPILADORC) $(FLAGSC) $(OBJS) $(SRCDIR)/checkers.c -o $(EXECNAME) $(LINKDIR) $(LINKING)
+$(TARGET): $(OBJS) $(SRCS)
+	$(CC) $(CFLAGS) -o $@ $(SRCS) $(OBJS)
+
+$(OBJDIR)/dfs.o: src/dfs.c src/dfs.h src/header.h
+	$(CC) $(CFLAGS) -c src/dfs.c -o $@
+
+$(OBJDIR)/utils.o: src/utils.c src/utils.h src/header.h
+	$(CC) $(CFLAGS) -c src/utils.c -o $@
 
 clean:
-	rm -rf $(OBJDIR) $(EXECNAME)
+	rm -f $(OBJDIR)/*.o $(TARGET)
