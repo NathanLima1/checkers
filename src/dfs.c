@@ -47,6 +47,8 @@ int get_depth(node_list* graph, int len_graph){
 
         }
     }
+
+    return max_depth;
 }
 
 node* get_neighbors(node* squares, int pos, int m, int n){

@@ -9,4 +9,6 @@ void init_graph(node_list* g, int total, node *squares);
 int is_border(int x, int y, int n, int m);
 void construct_graph(int n, int m, node* squares, node_list* g);
 
+node *get_neighbors(node *squares, int pos, int m, int n);
+
 #endif
