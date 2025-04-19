@@ -19,7 +19,7 @@ int main(int argc, char *argv[]){
         fscanf(fp, "%d %d", &n, &m);
         if(n == 0 && m == 0) break;
 
-        int total = m * n / 2;
+        int total = (m * n + 1) / 2;
         int *data = malloc(total * sizeof(int));
 
         read_data(fp, data, total);
