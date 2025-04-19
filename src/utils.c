@@ -1,8 +1,8 @@
 #include "utils.h"
 
-void read_data(int* data, int total){
+void read_data(FILE* fp, int* data, int total){
     for (int i = 0; i < total; i++) {
-        scanf("%d", &data[i]);
+        fscanf(fp, "%d", &data[i]);
     }
 }
 

@@ -4,9 +4,9 @@ OBJDIR = obj
 LIBDIR = lib
 
 OBJS = $(OBJDIR)/dfs.o $(OBJDIR)/utils.o
-SRCS = src/checkers.c
+SRCS = src/main.c
 
-TARGET = cluster
+TARGET = tp1
 
 all: $(TARGET)
 
