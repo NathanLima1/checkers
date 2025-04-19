@@ -34,7 +34,6 @@ int get_depth(node_list* graph, int len_graph){
 
     for(int i = 0; i < len_graph; i++){
         if(graph[i].root.type == 1){
-            printf("%d / %d\n", i, len_graph);
 
             int n = graph[i].root.id;
             node_list* graph_copy = (node_list*)malloc(sizeof(node_list)*len_graph);
