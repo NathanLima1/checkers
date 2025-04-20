@@ -1,54 +1,58 @@
 #include "header.h"
 #include "dfs.h"
 
+void reset_visited(node_list *graph, int len_graph) {
+    for (int i = 0; i < len_graph; i++) {
+        for (int j = 0; j < graph[i].size; j++) {
+            graph[i].e[j].visited = 0;
+        }
+    }
+}
+
 int DFS(node_list *g, int current, int start_id, int depth) {
     node_list *curr = &g[current];
     int max_depth = depth;
 
-    if (current == start_id && depth == 0) curr->root.type = 0;
+    if (current == start_id && depth == 0) {
+        curr->root.type = 0;
+    }
 
     for (int i = 0; i < curr->size; i++) {
         int neighbor_id = curr->e[i].id;
         node_list *neighbor = &g[neighbor_id];
-        
+
         if (curr->e[i].visited == 0 && neighbor->root.type == 0) {
             curr->e[i].visited = 1;
-            
+
             int neighbor_current_id = curr->e[i].pos;
             neighbor->e[neighbor_current_id].visited = 1;
 
             int new_depth = DFS(g, neighbor_id, start_id, depth + 1);
-            if (new_depth > max_depth)
-                max_depth = new_depth;
+            if (new_depth > max_depth) max_depth = new_depth;
 
             curr->e[i].visited = 0;
             neighbor->e[neighbor_current_id].visited = 0;
         }
     }
-    
+
     return max_depth;
 }
 
-int get_depth(node_list* graph, int len_graph){
+int get_depth(node_list *graph, int len_graph){
     int max_depth = 0;
 
-    for(int i = 0; i < len_graph; i++){
-        if(graph[i].root.type == 1){
-
+    for (int i = 0; i < len_graph; i++) {
+        if (graph[i].root.type == 1) {
+            reset_visited(graph, len_graph);
             int n = graph[i].root.id;
-            node_list* graph_copy = (node_list*)malloc(sizeof(node_list)*len_graph);
-            memcpy(graph_copy, graph, sizeof(node_list)*len_graph);
-
-            int depth = DFS(graph_copy, n, n, 0);
-            free(graph_copy);
-
-            if(depth > max_depth) max_depth = depth;
-
+            int depth = DFS(graph, n, n, 0);
+            if (depth > max_depth) max_depth = depth;
         }
     }
 
     return max_depth;
 }
+
 
 node* get_neighbors(node* squares, int pos, int m, int n){
     int x = pos/(n/2);
