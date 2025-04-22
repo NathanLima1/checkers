@@ -6,7 +6,6 @@ void read_data(FILE* fp, int* data, int total){
     }
 }
 
-// Creates a vector of squares and returns the lenght of ids
 int create_vector(node* squares, int total, int *data){
     int id = 0;
     
@@ -34,9 +33,9 @@ void init_graph(node_list* g, int total, node *squares){
 
 int is_border(int x, int y, int n, int m){
     if(x > 0 && x < m - 1 && y > 0 && y < n-1){
-        return 1;
+        return 0;
     }
-    return 0;
+    return 1;
 }
 
 void construct_graph(int n, int m, node* squares, node_list* g){
@@ -44,15 +43,15 @@ void construct_graph(int n, int m, node* squares, node_list* g){
     for(int i = 0; i < n*m; i+=2){
         x = i%m;
         y = i/m;
-    
 
-        if(is_border(x, y, n, m)){
+        if(!is_border(x, y, n, m)){
+            // Se é uma peça adversária
             if(squares[i/2].type == 2){
-                node *neighbor = get_neighbors(squares, i/2, m, n);
+                node *neighbors = get_neighbors(squares, i/2, m, n);
 
                 for(int j = 0; j < 4; j+=2){
-                    node n1 = neighbor[j];
-                    node n2 = neighbor[j+1];
+                    node n1 = neighbors[j];
+                    node n2 = neighbors[j+1];
 
                     if(n1.type != 2 && n2.type != 2){
                         node_list* gn1 = &g[n1.id];
@@ -65,7 +64,7 @@ void construct_graph(int n, int m, node* squares, node_list* g){
                         gn2->size++;
                     }
                 }
-                free(neighbor);
+                free(neighbors);
             }
         }
     }
