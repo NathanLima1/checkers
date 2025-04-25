@@ -6,16 +6,18 @@
 #include <string.h>
 #include <sys/time.h>
 #include <sys/resource.h>
+#include <stdbool.h>
 
 typedef struct {
     int type;
     int id;
-    int visited;
+    bool visited;
     int pos;
 } node;
 
 typedef struct {
     node e[4];
+    int dists[4];
     node root;
     int size;
 } node_list;
