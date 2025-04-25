@@ -2,6 +2,7 @@
 #define UTILS_H
 
 #include "header.h"
+#include "dfs.h"
 
 void read_data(FILE *fp, int* data, int total);
 /*Lê a entrada correspondente as casas, ele recebe o arquivo 

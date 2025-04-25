@@ -4,7 +4,9 @@
 #include "header.h"
 #include "dfs.h"
 
-int DFS(node_list *g, int current, int start_id, int depth);
+int get_max_captures(int x, int y, int** board, int n, int m);
+
+int bactracking_dfs(node_list *g, int current, int start_id, int depth);
 /*Realiza uma busca em profundidade com bactracking 
 tendo como base no grafo passado, 
 o nó atual, o id atual e a profundidade*/

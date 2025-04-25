@@ -2,12 +2,15 @@
 #include "utils.h"
 #include "dfs.h"
 
+
 int main(int argc, char *argv[]){
     FILE *fp = stdin;
 
     // Começa a medir o tempo real
     struct timeval start_time, end_time;
     gettimeofday(&start_time, NULL);
+
+    int option = 2;
 
     if (argc == 3 && strcmp(argv[1], "-i") == 0) {
         fp = fopen(argv[2], "r");
@@ -23,30 +26,83 @@ int main(int argc, char *argv[]){
     struct rusage usage_start, usage_end;
     getrusage(RUSAGE_SELF, &usage_start);
 
-    while(1){
-        fscanf(fp, "%d %d", &n, &m);
-        if(n == 0 && m == 0) break;
+    // Optimized
+    if(option == 1){
+        while(1){
+            fscanf(fp, "%d %d", &n, &m);
+            if(n == 0 && m == 0) break;
 
-        int total = (m * n + 1) / 2;
-        int *data = malloc(total * sizeof(int));
+            int total = (m * n + 1) / 2;
+            int *data = malloc(total * sizeof(int));
 
-        read_data(fp, data, total);
+            read_data(fp, data, total);
 
-        node* squares = malloc(total*sizeof(node));
-        int id_len = create_vector(squares, total, data);
+            node* squares = malloc(total*sizeof(node));
+            int id_len = create_vector(squares, total, data);
 
-        node_list *graph = malloc(id_len*sizeof(node_list));
-        init_graph(graph, total, squares);
+            node_list *graph = malloc(id_len*sizeof(node_list));
+            init_graph(graph, total, squares);
+        
+            construct_graph(n, m, squares, graph);
 
-        construct_graph(n, m, squares, graph);
+            int depth = get_depth(graph, id_len);
+            printf("%d\n", depth);
 
-        int depth = get_depth(graph, id_len);
-        printf("%d\n", depth);
+            free(data);
+            free(squares);
+            free(graph);
+        }
+    }else{
+        while(1){
+            fscanf(fp, "%d %d", &n, &m);
+            if(n == 0 && m == 0) break;
 
-        free(data);
-        free(squares);
-        free(graph);
+            int total = (m * n + 1) / 2;
+            int *data = malloc(total * sizeof(int));
+
+            read_data(fp, data, total);
+
+            int** board = (int**)malloc(n*sizeof(int*));
+            for(int i = 0; i < n; i++){
+                board[i] = (int*)malloc(m*sizeof(int));
+            }
+            // preenchendo com 3 para não conter lixo de memoria
+            for(int i = 0; i < n; i++){
+                for(int j = 0; j < m; j++){
+                    board[i][j] = 3;
+                }
+            }
+
+            int index = 0;
+            for(int i = 0; i < n; i++){
+                for(int j = (i%2); j < m; j+= 2){
+                    board[i][j] = data[index++];
+                }
+            }
+
+            int max_res = 0;
+            for(int i = 0; i < n; i++){
+                for(int j = 0; j < m; j++){
+                    if(board[i][j] == 1){
+                        int res = get_max_captures(i, j, board, n, m);
+                        if(res > max_res){
+                            max_res = res;
+                        }
+                    }
+                }
+            }
+
+        printf("%d\n", max_res);
+
+
+            for(int i = 0; i<n;i++){
+                free(board[i]);
+            }
+            free(board);
+        }
     }
+
+    
 
     // Termina medição
     gettimeofday(&end_time, NULL);
