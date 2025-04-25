@@ -2,6 +2,7 @@
 #include "utils.h"
 #include "dfs.h"
 #include <unistd.h>
+#include "getopt.h"
 
 
 int main(int argc, char *argv[]){
