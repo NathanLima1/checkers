@@ -50,10 +50,6 @@ int bactracking_dfs(node_list *g, int current, int start_id, int depth) {
     node_list *curr = &g[current];
     int max_depth = depth;
 
-    if (current == start_id && depth == 0) {
-        curr->root.type = 0;
-    }
-
     for (int i = 0; i < curr->size; i++) {
         int neighbor_id = curr->e[i].id;
         node_list *neighbor = &g[neighbor_id];
@@ -86,7 +82,9 @@ int get_depth(node_list *graph, int len_graph){
             // Reseta os visitados antes de começar uma nova dfs
             reset_visited(graph, len_graph);
             int n = graph[i].root.id;
+            graph[i].root.type = 0; // Marca o vértice inicial como casa vazia para poder revisitar novamente
             int depth = bactracking_dfs(graph, n, n, 0);
+            graph[i].root.type = 1; // Remarca o vértice inicial como casa ocupada pelo jogador
             if (depth > max_depth) max_depth = depth;
         }
     }

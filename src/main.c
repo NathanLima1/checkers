@@ -10,7 +10,7 @@ int main(int argc, char *argv[]){
     struct timeval start_time, end_time;
     gettimeofday(&start_time, NULL);
 
-    int option = 2;
+    int option = 1;
 
     if (argc == 3 && strcmp(argv[1], "-i") == 0) {
         fp = fopen(argv[2], "r");
