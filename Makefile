@@ -4,7 +4,7 @@ OBJDIR = obj
 LIBDIR = lib
 
 folders = obj
-OBJS = $(OBJDIR)/dfs.o $(OBJDIR)/utils.o $(OBJDIR)/graph.o
+OBJS = $(OBJDIR)/dfs.o $(OBJDIR)/utils.o
 SRCS = src/main.c
 
 TARGET = tp1

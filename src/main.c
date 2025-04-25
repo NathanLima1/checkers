@@ -1,7 +1,6 @@
 #include "header.h"
 #include "utils.h"
 #include "dfs.h"
-#include "graph.h"
 #include <unistd.h>
 #include "getopt.h"
 
