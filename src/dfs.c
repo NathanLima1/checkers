@@ -4,10 +4,14 @@
 int direction_x[4] = {-2, -2, 2, 2};
 int direction_y[4] = {-2, 2, -2, 2};
 
-void reset_visited(node_list *graph, int len_graph) {
+void reset_visited(node_list *graph, int len_graph, int n) {
     for (int i = 0; i < len_graph; i++) {
         for (int j = 0; j < graph[i].size; j++) {
             graph[i].e[j].visited = 0;
+
+            if (j != n && graph[i].e[j].type == 1) {
+                graph[i].e[j].visited = 1;
+            }
         }
     }
 }
@@ -46,30 +50,29 @@ int all_captures(int x, int y, int **board, int current_cap, int n, int m){
     return max_res;
 }
 
-int bactracking_dfs(node_list *g, int current, int start_id, int depth) {
+int backtracking_dfs(node_list *g, int current) {
     node_list *curr = &g[current];
-    int max_depth = depth;
+    int max_depth = 0;
 
     for (int i = 0; i < curr->size; i++) {
         int neighbor_id = curr->e[i].id;
         node_list *neighbor = &g[neighbor_id];
 
         // Se o atual não foi visitado e o tipo do vizinho é uma casa vazia
-        if (curr->e[i].visited == 0 && neighbor->root.type == 0) {
+        if (curr->e[i].visited == 0) {
             curr->e[i].visited = 1;
 
             int neighbor_current_id = curr->e[i].pos;
             neighbor->e[neighbor_current_id].visited = 1;
 
             // Chamada recursiva para descobrir a profundidade
-            int new_depth = bactracking_dfs(g, neighbor_id, start_id, depth + 1);
+            int new_depth = backtracking_dfs(g, neighbor_id) + 1;
             if (new_depth > max_depth) max_depth = new_depth;
 
             curr->e[i].visited = 0;
             neighbor->e[neighbor_current_id].visited = 0;
         }
     }
-
     return max_depth;
 }
 
@@ -80,11 +83,9 @@ int get_depth(node_list *graph, int len_graph){
         // Se for uma peça do usuário, calcula o número de capturas
         if (graph[i].root.type == 1) {
             // Reseta os visitados antes de começar uma nova dfs
-            reset_visited(graph, len_graph);
             int n = graph[i].root.id;
-            graph[i].root.type = 0; // Marca o vértice inicial como casa vazia para poder revisitar novamente
-            int depth = bactracking_dfs(graph, n, n, 0);
-            graph[i].root.type = 1; // Remarca o vértice inicial como casa ocupada pelo jogador
+            reset_visited(graph, len_graph, n); // Reseta os visitados e marca as casas aliadas como visitadas logo em seguida
+            int depth = backtracking_dfs(graph, n);
             if (depth > max_depth) max_depth = depth;
         }
     }
