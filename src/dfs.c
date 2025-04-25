@@ -16,8 +16,9 @@ int isValid(int x, int y, int n, int m){
     return x >= 0 && x < n && y >= 0 && y < m;
 }
 
-int get_max_captures(int x, int y, int** board, int n, int m){
-    int max_captures = 0;
+int all_captures(int x, int y, int **board, int current_cap, int n, int m){
+    int found = 0;
+    int max_res = current_cap;
     for(int i = 0; i < 4; i++){
         int final_x = x + direction_x[i];
         int final_y = y + direction_y[i];
@@ -25,43 +26,24 @@ int get_max_captures(int x, int y, int** board, int n, int m){
         int enemy_y = y + direction_y[i]/2;
 
         if(isValid(final_x, final_y, n, m) && isValid(enemy_x, enemy_y, n, m) && 
-            board[enemy_x][enemy_y] == 2 && board[final_x][final_y] == 0){
+           board[enemy_x][enemy_y] == 2 && board[final_x][final_y] == 0){
+            
             board[x][y] = 0;
             board[enemy_x][enemy_y] = 0;
             board[final_x][final_y] = 1;
 
-            int captures = 1 + get_max_captures(final_x, final_y, board, n, m);
-            if(captures > max_captures) max_captures = captures;
+            found = 1;
+            int res = all_captures(final_x, final_y, board, current_cap + 1, n, m);
+            if(res > max_res) max_res = res;
 
             board[x][y] = 1;
             board[enemy_x][enemy_y] = 2;
             board[final_x][final_y] = 0;
         }
-        
     }
 
-    for(int i = 0; i < 4; i++){
-        int dx = direction_x[i]/2;
-        int dy = direction_y[i]/2;
-        int nx = x + dx;
-        int ny = y + dy;
-
-        while(isValid(nx, ny, n, m) && board[nx][ny] == 0){
-
-            board[x][y] = 0;
-            board[nx][ny] = 1;
-
-            //int captures = get_max_captures(nx, ny, board, n, m);
-            //if(captures > max_captures) max_captures = captures;
-
-            board[x][y] = 1;
-            board[nx][ny] = 0;
-
-            nx += dx;
-            ny += dy;
-        }
-    }
-    return max_captures;
+    if(!found) return current_cap;
+    return max_res;
 }
 
 int bactracking_dfs(node_list *g, int current, int start_id, int depth) {

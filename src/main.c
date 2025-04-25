@@ -84,7 +84,7 @@ int main(int argc, char *argv[]){
             for(int i = 0; i < n; i++){
                 for(int j = 0; j < m; j++){
                     if(board[i][j] == 1){
-                        int res = get_max_captures(i, j, board, n, m);
+                        int res = all_captures(i, j, board, 0, n, m);
                         if(res > max_res){
                             max_res = res;
                         }
