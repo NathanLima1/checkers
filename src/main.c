@@ -1,6 +1,7 @@
 #include "header.h"
 #include "utils.h"
 #include "dfs.h"
+#include <unistd.h>
 
 
 int main(int argc, char *argv[]){
@@ -12,12 +13,32 @@ int main(int argc, char *argv[]){
 
     int option = 1;
 
-    if (argc == 3 && strcmp(argv[1], "-i") == 0) {
-        fp = fopen(argv[2], "r");
-        if (fp == NULL) {
-            perror("Erro ao abrir o arquivo");
-            return 1;
+    char *input_file = "entrada.txt";
+    char *output_file = "saida.txt";
+    int opt;
+
+    while ((opt = getopt(argc, argv, "i:o:f")) > 0 ) {
+        switch (opt) {
+            case 'i':
+                input_file = optarg;
+                break;
+            case 'o':
+                output_file = optarg;
+                break;
+            case 'f':
+                printf("Força bruta selecionada.\n");
+                option = 2;
+                break;
+            default:
+                printf("Entrada inválida, use -i:-o:-f\n");
+                return 0;
         }
+    }
+
+    fp = fopen(input_file, "r");
+    if (fp == NULL) {
+        perror("Erro ao abrir o arquivo");
+        return 1;
     }
 
     int n, m;
