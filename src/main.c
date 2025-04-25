@@ -6,6 +6,7 @@
 
 int main(int argc, char *argv[]){
     FILE *fp = stdin;
+    FILE *fp_out = stdin;
 
     // Começa a medir o tempo real
     struct timeval start_time, end_time;
@@ -41,6 +42,8 @@ int main(int argc, char *argv[]){
         return 1;
     }
 
+    fp_out = fopen(output_file, "w");
+
     int n, m;
 
     // Começa a medir o tempo de usuário
@@ -67,7 +70,9 @@ int main(int argc, char *argv[]){
             construct_graph(n, m, squares, graph);
 
             int depth = get_depth(graph, id_len);
+
             printf("%d\n", depth);
+            fprintf(fp_out, "%d\n", depth);
 
             free(data);
             free(squares);
@@ -113,7 +118,8 @@ int main(int argc, char *argv[]){
                 }
             }
 
-        printf("%d\n", max_res);
+            printf("%d\n", max_res);
+            fprintf(fp_out, "%d\n", max_res);
 
 
             for(int i = 0; i<n;i++){
@@ -160,6 +166,7 @@ int main(int argc, char *argv[]){
 
 
     fclose(fp);
+    fclose(fp_out);
     
     return 0;
 }
