@@ -2,7 +2,10 @@
 
 void read_data(FILE* fp, int* data, int total){
     for (int i = 0; i < total; i++) {
-        fscanf(fp, "%d", &data[i]);
+        if(fscanf(fp, "%d", &data[i]) != 1){
+            printf("Erro ao ler o arquivo");
+            exit(1);
+        }
     }
 }
 
@@ -40,14 +43,15 @@ int is_border(int x, int y, int n, int m){
 
 void construct_graph(int n, int m, node* squares, node_list* g){
     int x, y;
+    int par = !(m%2);
     for(int i = 0; i < n*m; i+=2){
-        x = i%m;
         y = i/m;
+        x = i%m + (y%2*par);
 
         if(!is_border(x, y, n, m)){
             // Se é uma peça adversária
             if(squares[i/2].type == 2){
-                node *neighbors = get_neighbors(squares, i/2, m, n);
+                node *neighbors = get_neighbors(squares, i/2 + (!(m%2)*y%2), m, n);
 
                 for(int j = 0; j < 4; j+=2){
                     node n1 = neighbors[j];

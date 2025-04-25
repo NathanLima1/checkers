@@ -1,6 +1,7 @@
 #include "header.h"
 #include "utils.h"
 #include "dfs.h"
+#include "graph.h"
 #include <unistd.h>
 #include "getopt.h"
 
@@ -19,7 +20,7 @@ int main(int argc, char *argv[]){
     char *output_file = "saida.txt";
     int opt;
 
-    while ((opt = getopt(argc, argv, "i:o:f")) > 0 ) {
+    while ((opt = getopt(argc, argv, "i:o:f:")) > 0 ) {
         switch (opt) {
             case 'i':
                 input_file = optarg;
@@ -28,8 +29,12 @@ int main(int argc, char *argv[]){
                 output_file = optarg;
                 break;
             case 'f':
-                printf("Força bruta selecionada.\n");
-                option = 2;
+                option = atoi(optarg);
+                if(option == 2){
+                    printf("Otimizado escolhido.\n");
+                }else{
+                    printf("Força bruta selecionada.\n");
+                }
                 break;
             default:
                 printf("Entrada inválida, use -i:-o:-f\n");
@@ -52,9 +57,12 @@ int main(int argc, char *argv[]){
     getrusage(RUSAGE_SELF, &usage_start);
 
     // Optimized
-    if(option == 1){
+    if(option == 2){
         while(1){
-            fscanf(fp, "%d %d", &n, &m);
+            if(fscanf(fp, "%d %d", &n, &m) != 2){
+                printf("Erro ao ler o arquivo\n");
+                exit(1);
+            }
             if(n == 0 && m == 0) break;
 
             int total = (m * n + 1) / 2;
@@ -81,7 +89,10 @@ int main(int argc, char *argv[]){
         }
     }else{
         while(1){
-            fscanf(fp, "%d %d", &n, &m);
+            if(fscanf(fp, "%d %d", &n, &m) != 2){
+                printf("Erro ao ler o arquivo\n");
+                exit(1);
+            }
             if(n == 0 && m == 0) break;
 
             int total = (m * n + 1) / 2;

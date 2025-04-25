@@ -5,6 +5,7 @@
 #include "dfs.h"
 
 int all_captures(int x, int y, int **board, int current_cap, int n, int m);
+/*Testa todas as possibilidades de movimento*/
 
 int backtracking_dfs(node_list *g, int current);
 /*Realiza uma busca em profundidade com bactracking 

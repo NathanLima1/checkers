@@ -69,7 +69,7 @@ int backtracking_dfs(node_list *g, int current) {
             int new_depth = backtracking_dfs(g, neighbor_id) + 1;
             if (new_depth > max_depth) max_depth = new_depth;
 
-            curr->e[i].visited = 0;
+            curr->e[i].visited = (neighbor->size == 2);
             neighbor->e[neighbor_current_id].visited = 0;
         }
     }
