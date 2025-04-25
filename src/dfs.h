@@ -19,7 +19,7 @@ int get_depth(node_list* graph, int len_graph);
 /*Retorna a profundidade máxima possível, nesse caso o número máximo 
 de capturas que é possível realizar*/
 
-node* get_neighbors(node* squares, int pos, int m, int n);
+node* get_neighbors(node* squares, int pos, int m, int n, int x);
 /*Retorna um vetor com os vizinhos da peça que foi passada como parâmetro, 
 nesse caso pos*/
 

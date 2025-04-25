@@ -44,14 +44,16 @@ int is_border(int x, int y, int n, int m){
 void construct_graph(int n, int m, node* squares, node_list* g){
     int x, y;
     int par = !(m%2);
+    int pos;
     for(int i = 0; i < n*m; i+=2){
         y = i/m;
         x = i%m + (y%2*par);
+        pos = i/2 + (y%2 * par);
 
         if(!is_border(x, y, n, m)){
             // Se é uma peça adversária
-            if(squares[i/2].type == 2){
-                node *neighbors = get_neighbors(squares, i/2 + (!(m%2)*y%2), m, n);
+            if(squares[pos].type == 2){
+                node *neighbors = get_neighbors(squares, pos, m, n, x);
 
                 for(int j = 0; j < 4; j+=2){
                     node n1 = neighbors[j];

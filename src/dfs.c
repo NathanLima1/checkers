@@ -94,8 +94,7 @@ int get_depth(node_list *graph, int len_graph){
 }
 
 
-node* get_neighbors(node* squares, int pos, int m, int n){
-    int x = pos/(n/2);
+node* get_neighbors(node* squares, int pos, int m, int n, int x){
     int is_even_width = !(m%2);
     // Quando a linha não começa com uma casa
     int shift_pos = !(x%2) && is_even_width;
