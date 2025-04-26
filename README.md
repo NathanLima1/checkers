@@ -8,3 +8,9 @@ Backtracking:
 Brute Force:
     
     ./tp1 -i entrada.txt -o saida.txt -f 1
+
+## Entrada
+A entrada pode ser designada na hora de executar no terminal
+
+## Saida
+A saida consiste na saída com o valor encontrado do máximo de capturas no arquivo designado e pelo tempo de execução impresso no termianl
