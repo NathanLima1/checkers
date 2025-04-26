@@ -1,8 +1,10 @@
 ## Execução
     make
 
-    # Backtracking:
+Backtracking:
+    
     ./tp1 -i entrada.txt -o saida.txt -f 2
 
-    # Brute Force:
+Brute Force:
+    
     ./tp1 -i entrada.txt -o saida.txt -f 1
