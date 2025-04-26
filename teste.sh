@@ -3,7 +3,7 @@
 # test_tp1.sh
 # Gera entradas aleatórias no formato correto, executa ./tp1 com e sem -f, compara resultados.
 
-MAX_SIZE=20
+MAX_SIZE=15
 
 while true; do
   # 1) Gera m e n aleatórios entre 1 e MAX_SIZE

@@ -47,12 +47,14 @@ void construct_graph(int n, int m, node* squares, node_list* g){
     int pos;
     for(int i = 0; i < n*m; i+=2){
         y = i/m;
-        x = i%m + (y%2*par);
-        pos = i/2 + (y%2 * par);
+        x = i%m;
+        pos = i/2;
 
         if(!is_border(x, y, n, m)){
             // Se é uma peça adversária
             if(squares[pos].type == 2){
+                printf("%d %d %d %d\n", x, y, pos, i);
+                printf("%d\n", squares[pos].id);
                 node *neighbors = get_neighbors(squares, pos, m, n, x);
 
                 for(int j = 0; j < 4; j+=2){
@@ -72,6 +74,11 @@ void construct_graph(int n, int m, node* squares, node_list* g){
                 }
                 free(neighbors);
             }
+        }
+        if (par && x == m-2) {
+            i++;
+        } else if (par && x==m-1){
+            i--;
         }
     }
 }
