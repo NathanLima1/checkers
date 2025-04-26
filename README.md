@@ -2,12 +2,12 @@
     make
 
 Backtracking:
-    ./tp1 -i entrada.txt -o saida.txt
+    ./tp1 -i entrada.txt -o saida.txt -f 2
 ou
-    ./tp1
+    ./tp1 -f 2
 
 Brute Force:
-    ./tp1 -i entrada.txt -o saida.txt -f
+    ./tp1 -i entrada.txt -o saida.txt -f 1
 
 ou
-    ./tp1 -f
+    ./tp1 -f 1
