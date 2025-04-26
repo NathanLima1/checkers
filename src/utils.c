@@ -53,8 +53,6 @@ void construct_graph(int n, int m, node* squares, node_list* g){
         if(!is_border(x, y, n, m)){
             // Se é uma peça adversária
             if(squares[pos].type == 2){
-                printf("%d %d %d %d\n", x, y, pos, i);
-                printf("%d\n", squares[pos].id);
                 node *neighbors = get_neighbors(squares, pos, m, n, x);
 
                 for(int j = 0; j < 4; j+=2){
